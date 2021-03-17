@@ -15,7 +15,7 @@ function Greeting({initialName = ''}) {
         <label htmlFor="name">Name: </label>
         <input value={name} onChange={handleChange} id="name" />
       </form>
-      {name ? <strong>Hello {name}</strong> : 'Please type your name'}
+      {name ? <strong>Hello {name}</strong> : 'Please type your name:'}
     </div>
   )
 }
