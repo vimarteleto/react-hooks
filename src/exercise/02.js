@@ -37,7 +37,6 @@ function Greeting({initialName = ''}) {
     setCount(count + 1)
   }, [name, nameUC])
 
-  //onClick={handleClick}
 
   return (
     <div>
