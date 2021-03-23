@@ -43,7 +43,7 @@ function Greeting({initialName = ''}) {
     <div>
       <form>
         <label htmlFor="name">Name: </label>
-        <input value={name} onChange = { (e) => { handleChange(e); handleClick(e) } }  id="name" />
+        <input value={name} onChange = {(e) => { handleChange(e); handleClick(e)}}  id="name" />
       </form>
       {name ? <strong>Hello {name}, {nameUC}</strong> : 'Please type your name'}
       <p>localStorage: {window.localStorage.getItem('name')} - {window.localStorage.getItem('nameUC')}</p>
