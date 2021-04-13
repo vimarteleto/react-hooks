@@ -44,25 +44,35 @@
 
     function Form() {
 
-      /* Crie as seguintes variáveis de estado:
-         * peso
-         * altura
-         * classif
-         * imc
-      */
-      const [peso, setPeso] = React.useState()
-      const [altura, setAltura] = React.useState()
-      const [classif, setClassif] = React.useState()
-      const [imc, setImc] = React.useState()
+      	/* Crie as seguintes variáveis de estado:
+        * peso
+        * altura
+        * classif
+        * imc
+      
+		const [peso, setPeso] = React.useState()
+		const [altura, setAltura] = React.useState()
+		const [classif, setClassif] = React.useState()
+		const [imc, setImc] = React.useState()
+		*/
 
-      function handleInputChange(event) {
-        /* Faça as modificações necessárias na manipulação das variáveis de estado
+		const [state, setState] = React.useState({
+			peso: undefined,
+			altura: undefined,
+			classif: undefined,
+			imc: undefined
+		})
+
+      	const { peso, altura, classif, imc } = state
+
+      	function handleInputChange(event) {
+        	/* Faça as modificações necessárias na manipulação das variáveis de estado
            nas linhas abaixo. */
-        if(event.target.id === 'peso') setPeso(event.target.value)
-        else if(event.target.id === 'altura') setAltura(event.target.value)
+        	if(event.target.id === 'peso') setState({...state, peso: event.target.value})
+        	else if(event.target.id === 'altura') setState({...state, altura: event.target.value})
 
         
-      }
+      	}
 
       /* Use o código a seguir dentro da função seguinte em um useEffect() tendo
         como dependências as variáveis de estado estadoPeso e estadoAltura.
@@ -77,52 +87,53 @@
         3. useEffect() é executado (como efeito colateral da atualização do componente)
       */
 
-      React.useEffect(() => {
+      	React.useEffect(() => {
 
-        let imcTemp, classifTemp
-        
-        if(isNaN(peso) || isNaN(altura)) imcTemp = '---'
-        else imcTemp = peso / altura ** 2
-        
-        if(imcTemp < 18.5) 
-          classifTemp = 'Abaixo do peso'
-        else if(imcTemp > 18.5 && imcTemp < 25)
-          classifTemp = 'Peso Normal'
-        else if(imcTemp >= 25 && imcTemp < 30)
-          classifTemp = 'Sobrepeso'
-        else if(imcTemp >= 30 && imcTemp < 35)
-          classifTemp = 'Obesidade Grau I'
-        else if(imcTemp >= 35 && imcTemp < 40)
-          classifTemp = 'Obesidade Grau II'
-        else if(imcTemp >= 40)
-          classifTemp = 'Obesidade Grau III ou Mórbida'
-        else
-          classifTemp = ''
+			let imcTemp, classifTemp
+			
+			if(isNaN(peso) || isNaN(altura)) imcTemp = '---'
+			else imcTemp = peso / altura ** 2
+			
+			if(imcTemp < 18.5) 
+			classifTemp = 'Abaixo do peso'
+			else if(imcTemp > 18.5 && imcTemp < 25)
+			classifTemp = 'Peso Normal'
+			else if(imcTemp >= 25 && imcTemp < 30)
+			classifTemp = 'Sobrepeso'
+			else if(imcTemp >= 30 && imcTemp < 35)
+			classifTemp = 'Obesidade Grau I'
+			else if(imcTemp >= 35 && imcTemp < 40)
+			classifTemp = 'Obesidade Grau II'
+			else if(imcTemp >= 40)
+			classifTemp = 'Obesidade Grau III ou Mórbida'
+			else
+			classifTemp = ''
 
-        setImc(imcTemp)
-        setClassif(classifTemp)
+			//setImc(imcTemp)
+					//setClassif(classifTemp)
+					setState({...state, imc: imcTempo, classif: classifTemp})
 
-      }, [peso, altura])
+      	}, [peso, altura])
       
-      return (
-        <>
-          <h1>Cálculo do IMC</h1>
-          <form>
-          { /* Substitua as chamadas de função abaixo pelos componentes correspondentes */ }
-          { /* inputSet('peso', 'Peso (kg):', handleInputChange) */}
-          <InputSet id="peso" labelText="Peso (kg):" onInputChange={handleInputChange} />
-          { /* inputSet('altura', 'Altura (m):', handleInputChange) */}
-          <InputSet id="altura" labelText="Altura (m):" onInputChange={handleInputChange} />
-          { /* result(estadoImc, estadoClassif) */}
-          <Result imc={imc} classif={classif} />
-          </form>
-        </>
-      )
+		return (
+			<>
+			<h1>Cálculo do IMC</h1>
+			<form>
+			{ /* Substitua as chamadas de função abaixo pelos componentes correspondentes */ }
+			{ /* inputSet('peso', 'Peso (kg):', handleInputChange) */}
+			<InputSet id="peso" labelText="Peso (kg):" onInputChange={handleInputChange} />
+			{ /* inputSet('altura', 'Altura (m):', handleInputChange) */}
+			<InputSet id="altura" labelText="Altura (m):" onInputChange={handleInputChange} />
+			{ /* result(estadoImc, estadoClassif) */}
+			<Result imc={imc} classif={classif} />
+			</form>
+			</>
+		)
     }
 
     ReactDOM.render(<Form />, document.getElementById('root'))
 
-  </script>
+  	</script>
 
 </body>
 
