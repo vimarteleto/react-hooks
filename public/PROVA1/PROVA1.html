@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-bt">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Programação Web 2021/1 &bull; PROVA 1</title>
+</head>
+
+<body>
+
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@17.0.0/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.12.4/babel.js"></script>
+
+  <script type="text/babel">
+
+    /**********************************************************************************
+    1. Converta os códigos comentados abaixo em componentes de função
+    **********************************************************************************/
+
+    /* PRIMEIRO COMPONENTE 
+      <div class="input-set">
+        <label for="area">Área (km²)</label>
+        <input id="area" type="number" />
+      </div>
+    */
+    function Area({ id, textLabel, onInputChange }) {
+        return (
+            <div className="input-set">
+                <label htmlFor={id}>{textLabel}</label>
+                <input id={id} type="number" onChange={onInputChange}/>
+            </div>
+        )
+    }
+
+    /* SEGUNDO COMPONENTE 
+      <div class="input-set">
+        <label for="pop">População</label>
+        <input id="pop" type="number" />
+      </div>
+    */
+    function Populacao({ id, textLabel, onInputChange }) {
+        return (
+            <div className="input-set">
+                <label htmlFor={id}>{textLabel}</label>
+                <input id={id} type="number" onChange={onInputChange}/>
+            </div>
+        )
+        
+    }
+
+    /* TERCEIRO COMPONENTE 
+      <div class="result">
+        <div>Densidade populacional:</div>
+        <div>Categoria:</div>
+      </div>
+    */
+    function Resultado({ textLabelOne, textLabelTwo, densidade, categoria }) {
+        return (
+            <div className="result">
+                <div>{textLabelOne}{densidade}</div>
+                <div>{textLabelTwo}{categoria}</div>
+            </div>
+        )        
+    }
+
+    function Page() {
+
+      /**********************************************************************************
+        2. Crie aqui as variáveis de estado que julgar necessárias
+      **********************************************************************************/
+
+        const [state, setState] = React.useState({
+            area,
+            populacao,
+            densidade,
+            categoria
+        })
+
+        const { area, populacao, densidade, categoria } = state
+
+      /**********************************************************************************
+        3. Escreva aqui o código necessário para o useEffect()
+
+        Nesse código, deverá ser feito o seguinte:
+        - O cálculo da densidade populacional, igual a população dividida por área
+        - A definição da categoria, conforme as regras:
+          - Quando densidade < 100 -> Baixa densidade
+          - Densidade > 100 e < 1000 -> Média densidade
+          - Densidade > 1000 -> Alta densidade
+        - Atualize as variáveis de estado apropriadas, para usar seu valor no terceiro
+          componente
+        - NÃO SE ESQUEÇA DAS DEPENDÊNCIAS!!!!
+
+      **********************************************************************************/
+
+        function handleInputChange(e) {
+            if(e.target.id === 'area') setState({ ...state, area: e.target.value })
+            else if(e.target.id === 'pop') setState({ ...state, populacao: e.target.value })
+        }
+
+        React.useEffect(() => {
+            let densidadeTemp
+            let categoriaTemp
+
+            if (isNaN(area) || isNaN(populacao)) {
+                densidadeTemp = ''
+                categoriaTemp = ''
+            }
+            else densidadeTemp = populacao / area
+
+            if (densidadeTemp < 100 && densidadeTemp > 0)
+            categoriaTemp = ('Baixa densidade')
+            else if (densidadeTemp > 100 && densidadeTemp < 1000)
+            categoriaTemp = ('Média densidade')
+            else if (densidadeTemp >= 1000)
+            categoriaTemp = ('Alta densidade')
+            else
+            categoriaTemp = ('')
+
+            setState({...state, densidade: densidadeTemp, categoria: categoriaTemp})
+            
+        }, [area, populacao, categoria])
+
+
+        return (
+            <>
+            <h1>Densidade populacional</h1>
+
+            <div id="world-map">
+                <img src="world-map.png" alt="Mapa múndi" />
+            </div>
+
+            <Area id="area" textLabel="Área (km²)" onInputChange={handleInputChange}/>
+            <Populacao id="pop" textLabel="População" onInputChange={handleInputChange}/>
+            <Resultado textLabelOne="Densidade populacional: " textLabelTwo="Categoria: "
+                densidade={densidade} categoria={categoria}/>        
+
+            </>
+        )
+    }
+
+    /**********************************************************************************
+        4. No final, sua página deve ficar semelhante à imagem do arquivo screenshot.png.
+           Todo o CSS necessário já está no arquivo styles.css. Não é necessário fazer
+           nenhuma alteração de estilo, exceto usar os nomes de classe corretos nos
+           componentes.
+
+        - A densidade e a categoria devem ser atualizadas imediatamente quando os inputs
+          da área ou da população forem alterados
+
+        - Alguns valores para testar:
+
+        PAÍS            ÁREA              POPULAÇÃO       DENSIDADE CALCULADA
+        Brasil          8510295,914       211755692       24.882294827333542    (Baixa d.)
+        Japão           377975            126440000       334.51947880150806    (Média d.)
+        Bangladesh      144000            163220762       1133.4775138888888    (Alta d.)
+
+      **********************************************************************************/
+
+    ReactDOM.render(<Page />, document.getElementById('root'))
+
+  </script>
+
+</body>
+
+</html>
+
+<!--
+    1. Atualização de estado
+    2. Atualização do componente
+    3. useEffect()
+-->
